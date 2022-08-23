@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include <fstream>
 #include <string>
+#include <cypher.h>
 using namespace std;
 
 

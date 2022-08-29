@@ -92,8 +92,7 @@ int main(int argc, char* argv[]) {
 
                 for (int i = 0; i < number_of_blocks; i++){
                     get_blocks(message, i*SIZE_BLOCK, i*SIZE_BLOCK + SIZE_BLOCK, block);
-
-                    cout << endl << block[0] << endl;
+                    
                 }
 
                 //Realizar implementacion del encriptado con las variables message y password

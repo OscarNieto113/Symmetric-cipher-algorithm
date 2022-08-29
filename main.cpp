@@ -1,9 +1,10 @@
 #include <bits/stdc++.h>
 #include <fstream>
 #include <string>
-#include <cypher.h>
+
 using namespace std;
 
+#include "cypher.h"
 
 int main(int argc, char* argv[]) {
     char option;

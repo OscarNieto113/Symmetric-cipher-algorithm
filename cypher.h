@@ -6,32 +6,56 @@
 
 using namespace std;
 
+
 class Cypher{
     private:
-        vector<unsigned char> key[16];
-        vector<unsigned char> block[16];
+        vector<unsigned char> *key;
+        vector<unsigned char> *block;
 
     public:
-        string encrypt (vector<unsigned char>, vector<unsigned char>);
-        string columnar_transposition (vector<unsigned char>);
-        string row_transposition (vector<unsigned char>);
-        string polyalphabetic_shift (vector<unsigned char>, vector<unsigned char>);
-        string xor_tecnique (vector<unsigned char>, vector<unsigned char>);
+        Cypher();//Constructor por default / omision
+        Cypher (vector<unsigned char>, vector<unsigned char>); // Constructor alterno
 
-        string decrypt(unsigned char, vector<unsigned char>);
+        ~Cypher (); //Destructor
+
+        void encrypt (vector<unsigned char>, vector<unsigned char>);
+        void decrypt(vector<unsigned char>, vector<unsigned char>);
+
+        void columnar_transposition (vector<unsigned char>);
+        void row_transposition (vector<unsigned char>);
+        void polyalphabetic_shift (vector<unsigned char>, vector<unsigned char>);
+        void xor_tecnique (vector<unsigned char>, vector<unsigned char>);
+
+        void to_string (vector<unsigned char>);
 };
 
-//string Cypher :: encrypt(unsigned char key, vector<unsigned char>block){
-//}
+Cypher :: Cypher(){
+    vector <unsigned char> block(SIZE_BLOCK, ADD_CHARACTER);
+    vector <unsigned char> key(SIZE_BLOCK, ADD_CHARACTER);
+}
 
-string Cypher :: columnar_transposition(vector<unsigned char> block){
-    string example;
-    for (int i = 2; i < block.size(); i+=4){
-        example += block [i];
+Cypher :: Cypher(vector <unsigned char> block_, vector <unsigned char> key_){
+    block = block_;
+    key = key_
+}
+
+Cypher :: ~Cypher() { delete[] block, delete[] key; }
+
+void Cypher :: encrypt(vector<unsigned char> block, vector<unsigned char> key){
+    //columnar_transposition(block);
+    to_string(block);
+}
+
+void Cypher :: columnar_transposition(vector<unsigned char> block){
+
+    
+}
+
+void Cypher :: to_string(vector<unsigned char> block){
+    for (int i = 0; i < SIZE_BLOCK; i++){
+        cout << endl << block[i] << ", ";
     }
-
-    cout << example;
-    return example;
+    cout << endl;
 }
 
 #endif

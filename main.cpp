@@ -28,16 +28,73 @@ string get_message_from_file(string file1){
     if (file.is_open()){
         while (getline(file, message)){
                         
-                    }
-                    file.close();
-                }
-                else{
-                    cout << "No se pudo abrir el archivo" << endl;
-                }
-                cout << message;
-                cout << "Escribe una contraseña simetrica alfanumerica de no maximo 16 caracteres" << endl;
+        }
+        file.close();
+    }
+    else{
+        cout << "No se pudo abrir el archivo" << endl;
+    }
+    return message;
+}
+
+string fill_block(string message){
+    int message_difference = message.length() % SIZE_BLOCK;
+    if (message_difference != 0){
+        int aux = SIZE_BLOCK - (message_difference);
+        for (int i = aux; i > 0; i--){
+            message.push_back(ADD_CHARACTER);
+        }
+    }
+    return message;
+}
+
+void get_blocks(string message, int start, int end, vector<unsigned char>& block){
+    int aux = 0;
+    for (int i = start; i < end; i++){
+        block[i] = message.at(i);
+        aux++;
+    }
+}
+
+void password_to_vector(string password,vector<unsigned char>& block){
+    for (int i = 0; i < SIZE_BLOCK; i++){
+        block[i] = password.at(i);
+    }
+}
+
+
+int main(int argc, char* argv[]) {
+    char option;
+    clock_t time_start, time_end;
+    bool bandera = true;
+    int message_length;
+    
+
+    while (bandera){
+        option = menu();
+
+        switch (option){
+            case '1': {
+                string password, message;
+                int number_of_blocks;
+                vector <unsigned char> block(SIZE_BLOCK, ADD_CHARACTER);
+                vector <unsigned char> key(SIZE_BLOCK, ADD_CHARACTER);
+                string file = ("input.txt");
+
+                message = get_message_from_file(file);
+                cout << "Escribe una contraseña alfanumerica de tamanio de 16 caracteres" << endl;
                 cin >> password;
                 cin.ignore();
+                password_to_vector(password, key);
+                
+                message = fill_block(message);
+                number_of_blocks = message.size()/SIZE_BLOCK;
+
+                for (int i = 0; i < number_of_blocks; i++){
+                    get_blocks(message, i*SIZE_BLOCK, i*SIZE_BLOCK + SIZE_BLOCK, block);
+
+                    cout << endl << block[0] << endl;
+                }
 
                 //Realizar implementacion del encriptado con las variables message y password
                 break;

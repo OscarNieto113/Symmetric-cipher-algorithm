@@ -8,9 +8,9 @@ using namespace std;
 int main(int argc, char* argv[]) {
     char option;
     clock_t time_start, time_end;
-    bool bandera = true;
+    bool flag = true;
 
-    while (bandera){
+    while (flag){
         cout << "Elige la opcion: " << endl;
         cout << "1. Encriptar" << endl;
         cout << "2. Desencriptar " << endl; 
@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
                 break;
             }
             case '3': {
-                bandera = false;
+                flag = false;
                 break;
             }
         }

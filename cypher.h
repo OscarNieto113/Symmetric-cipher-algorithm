@@ -14,19 +14,17 @@ class Cypher{
 
     public:
         Cypher();//Constructor por default / omision
-        Cypher (vector<unsigned char>, vector<unsigned char>); // Constructor alterno
+        Cypher (vector<unsigned char> *b, vector<unsigned char> *k); // Constructor alterno
 
-        ~Cypher (); //Destructor
+        void encrypt ();
+        void decrypt();
 
-        void encrypt (vector<unsigned char>, vector<unsigned char>);
-        void decrypt(vector<unsigned char>, vector<unsigned char>);
+        void columnar_transposition ();
+        void row_transposition ();
+        void polyalphabetic_shift ();
+        void xor_tecnique ();
 
-        void columnar_transposition (vector<unsigned char>);
-        void row_transposition (vector<unsigned char>);
-        void polyalphabetic_shift (vector<unsigned char>, vector<unsigned char>);
-        void xor_tecnique (vector<unsigned char>, vector<unsigned char>);
-
-        void to_string (vector<unsigned char>);
+        void to_string ();
 };
 
 Cypher :: Cypher(){
@@ -34,26 +32,30 @@ Cypher :: Cypher(){
     vector <unsigned char> key(SIZE_BLOCK, ADD_CHARACTER);
 }
 
-Cypher :: Cypher(vector <unsigned char> block_, vector <unsigned char> key_){
-    block = block_;
-    key = key_
+Cypher :: Cypher(vector <unsigned char> *b, vector <unsigned char> *k){
+    block = b;
+    key = k;
 }
 
-Cypher :: ~Cypher() { delete[] block, delete[] key; }
-
-void Cypher :: encrypt(vector<unsigned char> block, vector<unsigned char> key){
-    //columnar_transposition(block);
-    to_string(block);
+void Cypher :: encrypt(){
+    //columnar_transposition();
+    to_string();
 }
 
-void Cypher :: columnar_transposition(vector<unsigned char> block){
+void Cypher :: columnar_transposition(){
 
     
 }
 
-void Cypher :: to_string(vector<unsigned char> block){
+void Cypher :: to_string(){
+    cout << endl << "Bloque: " << endl;
     for (int i = 0; i < SIZE_BLOCK; i++){
-        cout << endl << block[i] << ", ";
+        cout << block->at(i) << ", ";
+    }
+    cout << endl << endl << "Key: " << endl;
+
+    for (int i = 0; i < SIZE_BLOCK; i++){
+        cout << key->at(i) << ", ";
     }
     cout << endl;
 }

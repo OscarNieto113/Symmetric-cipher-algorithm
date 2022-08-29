@@ -4,7 +4,7 @@
 #include <math.h>
 #include <vector>
 
-using namespace std;
+    using namespace std;
 
 const int SIZE_BLOCK = 16; //16 caracteres = 128 bits
 const char ADD_CHARACTER = 'x'; //Caracter con el que se va a rellenar si el bloque no esta completo
@@ -66,11 +66,11 @@ void password_to_vector(string password,vector<unsigned char>& block){
 int main(int argc, char* argv[]) {
     char option;
     clock_t time_start, time_end;
-    bool bandera = true;
+    bool flag = true;
     int message_length;
     
 
-    while (bandera){
+    while (flag){
         option = menu();
 
         switch (option){
@@ -82,9 +82,10 @@ int main(int argc, char* argv[]) {
                 string file = ("input.txt");
 
                 message = get_message_from_file(file);
-                cout << "Escribe una contraseña alfanumerica de tamanio de 16 caracteres" << endl;
-                cin >> password;
-                cin.ignore();
+                cout << "Escribe una contraseña alfanumerica de tamanio de 16 caracteres: " << endl;
+                password = "0123456789abcdef";
+                //cin >> password;
+                //cin.ignore();
                 password_to_vector(password, key);
                 
                 message = fill_block(message);
@@ -92,7 +93,8 @@ int main(int argc, char* argv[]) {
 
                 for (int i = 0; i < number_of_blocks; i++){
                     get_blocks(message, i*SIZE_BLOCK, i*SIZE_BLOCK + SIZE_BLOCK, block);
-                    
+                    Cypher encrypted_block(&block, &key);
+                    encrypted_block.encrypt();
                 }
 
                 //Realizar implementacion del encriptado con las variables message y password
@@ -106,20 +108,20 @@ int main(int argc, char* argv[]) {
                 string file = ("encrypt.txt");
 
                 message = get_message_from_file(file);
-                cout << "Escribe la contraseña para descifrar el mensaje" << endl;
+                cout << "Escribe la contraseña para descifrar el mensaje: " ;
                 cin >> password;
                 cin.ignore();
                 password_to_vector(password, key);
 
                 for (int i = 0; i < number_of_blocks; i++){
                     get_blocks(message, i*SIZE_BLOCK, i*SIZE_BLOCK + SIZE_BLOCK, block);
-                    Cypher encrypted_block(block, key);
+                    
                 }
                 
                 break;
             }
             case '3': {
-                bandera = false;
+                flag = false;
                 break;
             }
         }

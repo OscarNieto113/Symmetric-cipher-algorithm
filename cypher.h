@@ -38,13 +38,36 @@ Cypher :: Cypher(vector <unsigned char> *b, vector <unsigned char> *k){
 }
 
 void Cypher :: encrypt(){
-    //columnar_transposition();
+    columnar_transposition();
     to_string();
 }
 
 void Cypher :: columnar_transposition(){
+    unsigned char matrix_transposition [MATRIX_SIZE][MATRIX_SIZE];
+    int aux = 0;
+    //Filling the matrix
+    for (int i = 0; i < MATRIX_SIZE; i++){
+        for (int j = 0; j < MATRIX_SIZE; j++){
+            matrix_transposition [i][j] = block->at(aux);
+            aux++;
+        }
+    }
 
-    
+    for (int i = 0; i < MATRIX_SIZE; i++){
+        aux = matrix_transposition [i][0];
+        matrix_transposition[i][0] = matrix_transposition[i][MATRIX_SIZE - 2];
+        matrix_transposition[i][MATRIX_SIZE - 2] = aux;
+    }
+
+    //borrar
+    cout << endl << "Shifted matrix: " << endl;
+    for (int i = 0; i < MATRIX_SIZE; i++) {
+        for (int j = 0; j < MATRIX_SIZE; j++){
+            cout << matrix_transposition[i][j] << " ";
+        }
+        cout << endl;
+    }
+    //borrar
 }
 
 void Cypher :: to_string(){

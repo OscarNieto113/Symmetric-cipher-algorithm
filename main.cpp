@@ -8,6 +8,7 @@
 
 const int SIZE_BLOCK = 16; //16 caracteres = 128 bits
 const char ADD_CHARACTER = 'x'; //Caracter con el que se va a rellenar si el bloque no esta completo
+const int MATRIX_SIZE = SIZE_BLOCK/4;
 
 #include "cypher.h"
 

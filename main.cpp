@@ -1,31 +1,32 @@
 #include <bits/stdc++.h>
 #include <fstream>
 #include <string>
-#include <cypher.h>
+#include <math.h>
+#include <vector>
+
 using namespace std;
 
+const int SIZE_BLOCK = 16; //16 caracteres = 128 bits
+const char ADD_CHARACTER = 'x'; //Caracter con el que se va a rellenar si el bloque no esta completo
 
-int main(int argc, char* argv[]) {
+#include "cypher.h"
+
+char menu(){
     char option;
-    clock_t time_start, time_end;
-    bool flag = true;
+    cout << endl << "Elige la opcion: " << endl;
+    cout << "1. Encriptar" << endl;
+    cout << "2. Desencriptar " << endl; 
+    cout << "3. Salir " << endl << endl; 
+    cin >> option;
+    cin.ignore();
+    return option;
+}
 
-    while (flag){
-        cout << "Elige la opcion: " << endl;
-        cout << "1. Encriptar" << endl;
-        cout << "2. Desencriptar " << endl; 
-        cout << "3. Salir " << endl << endl; 
-
-        cin >> option;
-        cin.ignore();
-
-        switch (option){
-            case '1': {
-                string password;
-                string message;
-                ifstream file("input.txt");
-                if (file.is_open()){
-                    while (getline(file, message)){
+string get_message_from_file(string file1){
+    string message;
+    ifstream file(file1);
+    if (file.is_open()){
+        while (getline(file, message)){
                         
                     }
                     file.close();
@@ -42,40 +43,27 @@ int main(int argc, char* argv[]) {
                 break;
             }
             case '2': {
-                string password;
-                string cyphered_message;
-                string decrypt_message;
-                ifstream file("encrypt.txt");
-                if (file.is_open()){
-                    while (getline(file, cyphered_message)){
-                        
-                    }
-                    file.close();
-                }
-                else{
-                    cout << "No se pudo abrir el archivo" << endl;
-                }
-                cout << cyphered_message;
-                cout << "Escribe la contraseña" << endl;
+                string password, message;
+                int number_of_blocks;
+                vector <unsigned char> block(SIZE_BLOCK, ADD_CHARACTER);
+                vector <unsigned char> key(SIZE_BLOCK, ADD_CHARACTER);
+                string file = ("encrypt.txt");
+
+                message = get_message_from_file(file);
+                cout << "Escribe la contraseña para descifrar el mensaje" << endl;
                 cin >> password;
                 cin.ignore();
+                password_to_vector(password, key);
+
+                for (int i = 0; i < number_of_blocks; i++){
+                    get_blocks(message, i*SIZE_BLOCK, i*SIZE_BLOCK + SIZE_BLOCK, block);
+                    Cypher encrypted_block(block, key);
+                }
                 
-                //Realizar implementacion del encriptado con las variables cyphered_message y password
-
-                //Guarda el resultado en el txt decrypt
-                ofstream file2("decrypt.txt");
-                if (file2.is_open()){
-                    file2 << decrypt_message;
-                    file2.close();
-                }
-                else{
-                    cout << "No se pudo abrir el archivo" << endl;
-                }
-
                 break;
             }
             case '3': {
-                flag = false;
+                bandera = false;
                 break;
             }
         }

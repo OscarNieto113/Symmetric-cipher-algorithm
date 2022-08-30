@@ -15,15 +15,18 @@ class Cypher{
     public:
         Cypher();//Constructor por default / omision
         Cypher (vector<unsigned char> *b, vector<unsigned char> *k); // Constructor alterno
+        //~Cypher (); //Destructor
 
         string encrypt ();
         string decrypt();
 
-        void diffusion_technique  ();
-        void polyalphabetic_shift ();
+        void diffusion_technique_enc ();
+        void diffusion_technique_dec ();
+        void polyalphabetic_shift_enc ();
+        void polyalphabetic_shift_dec ();
         void xor_tecnique ();
 
-        void to_string ();
+        void to_string (string);
 };
 
 Cypher :: Cypher(){
@@ -36,11 +39,20 @@ Cypher :: Cypher(vector <unsigned char> *b, vector <unsigned char> *k){
     key = k;
 }
 
+
+//Cypher:: ~Cypher() {
+//   delete[] block;
+//    delete[] key;
+//}
+
 string Cypher :: encrypt(){
     string encrypted_message;
-    diffusion_technique ();
-    polyalphabetic_shift();
+    diffusion_technique_enc ();
+    to_string("Column and row transposition");
+    polyalphabetic_shift_enc();
+    to_string("Polyalphabetic shift");
     xor_tecnique();
+    to_string("XOR");
 
     for (int i = 0; i < SIZE_BLOCK; i++){
         encrypted_message += block->at(i);
@@ -48,14 +60,17 @@ string Cypher :: encrypt(){
 
     return encrypted_message;
 }
+
 
 string Cypher :: decrypt(){
     string encrypted_message;
     xor_tecnique();
-    //diffusion_technique ();
-    //polyalphabetic_shift();
-    //xor_tecnique();
-
+    to_string("XOR");
+    polyalphabetic_shift_dec();
+    to_string("Polyalphabetic shift");
+    diffusion_technique_dec ();
+    to_string("Column and row transposition");
+    
     for (int i = 0; i < SIZE_BLOCK; i++){
         encrypted_message += block->at(i);
     }
@@ -63,7 +78,7 @@ string Cypher :: decrypt(){
     return encrypted_message;
 }
 
-void Cypher :: diffusion_technique (){
+void Cypher :: diffusion_technique_enc (){
     unsigned char matrix_transposition [MATRIX_SIZE][MATRIX_SIZE];
     int aux = 0;
     //Filling the matrix
@@ -98,13 +113,52 @@ void Cypher :: diffusion_technique (){
 
 }
 
-void Cypher :: polyalphabetic_shift(){
+void Cypher :: diffusion_technique_dec (){
+    unsigned char matrix_transposition [MATRIX_SIZE][MATRIX_SIZE];
+    int aux = 0;
+    //Filling the matrix
+    for (int i = 0; i < MATRIX_SIZE; i++){
+        for (int j = 0; j < MATRIX_SIZE; j++){
+            matrix_transposition [i][j] = block->at(aux);
+            aux++;
+        }
+    }
+
+    //Row transposition
+    for (int j = 0; j < MATRIX_SIZE; j++){
+        aux = matrix_transposition [0][j];
+        matrix_transposition[0][j] = matrix_transposition[MATRIX_SIZE - 2][j];
+        matrix_transposition[MATRIX_SIZE - 2][j] = aux;
+    }
+
+    //Columnar transposition
+    for (int i = 0; i < MATRIX_SIZE; i++){
+        aux = matrix_transposition [i][0];
+        matrix_transposition[i][0] = matrix_transposition[i][MATRIX_SIZE - 2];
+        matrix_transposition[i][MATRIX_SIZE - 2] = aux;
+    }
+
+    aux = 0;
+    for (int j = 0; j < MATRIX_SIZE; j++){
+        for (int i = 0; i < MATRIX_SIZE; i++){
+            block->at(aux) = matrix_transposition[i][j];
+            aux++;
+        }
+    }
+}
+
+void Cypher :: polyalphabetic_shift_enc(){
     unsigned char aux;
     for (int i = 0; i < SIZE_BLOCK; i++){
         aux = block->at(i) + key->at(i);
-        if (aux > 127){
-            aux -= 127;
-        }
+        block->at(i) = aux;
+    }
+}
+
+void Cypher :: polyalphabetic_shift_dec(){
+    unsigned char aux;
+    for (int i = 0; i < SIZE_BLOCK; i++){
+        aux = block->at(i) - key->at(i);
         block->at(i) = aux;
     }
 }
@@ -113,23 +167,24 @@ void Cypher :: xor_tecnique(){
     unsigned char aux;
     for (int i = 0; i < SIZE_BLOCK; i++){
         aux = block->at(i) ^ key->at(i);
-        if (aux > 127){
-            aux -= 127;
-        }
         block->at(i) = aux;
     }
 }
 
-void Cypher :: to_string(){
-    cout << endl << "Bloque: " << endl;
+void Cypher :: to_string(string tecnique){
+    cout << endl << "Bloque aplicando: " << tecnique << endl;
     for (int i = 0; i < SIZE_BLOCK; i++){
         cout << block->at(i) << ", ";
     }
-    cout << endl << endl << "Key: " << endl;
-
+    cout << endl;
     for (int i = 0; i < SIZE_BLOCK; i++){
-        cout << key->at(i) << ", ";
+        cout << (int)block->at(i) << ", ";
     }
+    //cout << endl << endl << "Key: " << endl;
+
+    //for (int i = 0; i < SIZE_BLOCK; i++){
+    //    cout << key->at(i) << ", ";
+    //}
     cout << endl;
 }
 

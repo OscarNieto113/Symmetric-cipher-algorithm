@@ -44,12 +44,13 @@ Cypher:: ~Cypher() {
 
 string Cypher :: encrypt(){
     string encrypted_message;
+
     diffusion_technique ();
-    to_string(); //borrar
+    //to_string(); //borrar
     polyalphabetic_shift();
-    to_string(); // borrar
+    //to_string(); // borrar
     xor_tecnique();
-    to_string(); // borrar
+    //to_string(); // borrar
 
     for (int i = 0; i < SIZE_BLOCK; i++){
         encrypted_message += block->at(i);
@@ -90,7 +91,7 @@ void Cypher :: diffusion_technique (){
         matrix_transposition[i][MATRIX_SIZE - 2] = aux;
     }
 
-    //borrar
+    /*borrar
     cout << endl << "Shifted matrix by column: " << endl;
     for (int i = 0; i < MATRIX_SIZE; i++) {
         for (int j = 0; j < MATRIX_SIZE; j++){
@@ -98,7 +99,7 @@ void Cypher :: diffusion_technique (){
         }
         cout << endl;
     }
-    //borrar
+    borrar*/
 
     //Row transposition
     for (int j = 0; j < MATRIX_SIZE; j++){
@@ -107,7 +108,7 @@ void Cypher :: diffusion_technique (){
         matrix_transposition[MATRIX_SIZE - 2][j] = aux;
     }
 
-    //borrar
+    /*borrar
     cout << endl << "Shifted matrix by row: " << endl;
     for (int i = 0; i < MATRIX_SIZE; i++) {
         for (int j = 0; j < MATRIX_SIZE; j++){
@@ -115,7 +116,7 @@ void Cypher :: diffusion_technique (){
         }
         cout << endl;
     }
-    //borrar
+    borrar*/
 
     aux = 0;
     for (int j = 0; j < MATRIX_SIZE; j++){

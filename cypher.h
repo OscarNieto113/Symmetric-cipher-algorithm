@@ -179,11 +179,6 @@ void Cypher :: to_string(string tecnique){
     for (int i = 0; i < SIZE_BLOCK; i++){
         cout << (int)block->at(i) << ", ";
     }
-    //cout << endl << endl << "Key: " << endl;
-
-    //for (int i = 0; i < SIZE_BLOCK; i++){
-    //    cout << key->at(i) << ", ";
-    //}
     cout << endl;
 }
 

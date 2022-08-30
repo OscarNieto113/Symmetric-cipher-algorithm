@@ -19,8 +19,7 @@ class Cypher{
         void encrypt ();
         void decrypt();
 
-        void columnar_transposition ();
-        void row_transposition ();
+        void diffusion_technique  ();
         void polyalphabetic_shift ();
         void xor_tecnique ();
 
@@ -38,11 +37,15 @@ Cypher :: Cypher(vector <unsigned char> *b, vector <unsigned char> *k){
 }
 
 void Cypher :: encrypt(){
-    columnar_transposition();
+    diffusion_technique ();
     to_string();
+    polyalphabetic_shift();
+    to_string();
+    //xor_tecnique();
+    //to_string();
 }
 
-void Cypher :: columnar_transposition(){
+void Cypher :: diffusion_technique (){
     unsigned char matrix_transposition [MATRIX_SIZE][MATRIX_SIZE];
     int aux = 0;
     //Filling the matrix
@@ -53,6 +56,7 @@ void Cypher :: columnar_transposition(){
         }
     }
 
+    //Columnar transposition
     for (int i = 0; i < MATRIX_SIZE; i++){
         aux = matrix_transposition [i][0];
         matrix_transposition[i][0] = matrix_transposition[i][MATRIX_SIZE - 2];
@@ -60,7 +64,7 @@ void Cypher :: columnar_transposition(){
     }
 
     //borrar
-    cout << endl << "Shifted matrix: " << endl;
+    cout << endl << "Shifted matrix by column: " << endl;
     for (int i = 0; i < MATRIX_SIZE; i++) {
         for (int j = 0; j < MATRIX_SIZE; j++){
             cout << matrix_transposition[i][j] << " ";
@@ -68,6 +72,43 @@ void Cypher :: columnar_transposition(){
         cout << endl;
     }
     //borrar
+
+    //Row transposition
+    for (int j = 0; j < MATRIX_SIZE; j++){
+        aux = matrix_transposition [0][j];
+        matrix_transposition[0][j] = matrix_transposition[MATRIX_SIZE - 2][j];
+        matrix_transposition[MATRIX_SIZE - 2][j] = aux;
+    }
+
+    //borrar
+    cout << endl << "Shifted matrix by row: " << endl;
+    for (int i = 0; i < MATRIX_SIZE; i++) {
+        for (int j = 0; j < MATRIX_SIZE; j++){
+            cout << matrix_transposition[i][j] << " ";
+        }
+        cout << endl;
+    }
+    //borrar
+
+    aux = 0;
+    for (int j = 0; j < MATRIX_SIZE; j++){
+        for (int i = 0; i < MATRIX_SIZE; i++){
+            block->at(aux) = matrix_transposition[i][j];
+            aux++;
+        }
+    }
+
+}
+
+void Cypher :: polyalphabetic_shift(){
+    unsigned char aux;
+    for (int i = 0; i < SIZE_BLOCK; i++){
+        aux = block->at(i) + key->at(i);
+        if (aux > 127){
+            aux -= 127;
+        }
+        block->at(i) = aux;
+    }
 }
 
 void Cypher :: to_string(){

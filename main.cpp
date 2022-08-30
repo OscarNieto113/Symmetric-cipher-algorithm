@@ -102,6 +102,7 @@ int main(int argc, char* argv[]) {
                 password = "0123456789abcdef"; //borrar
                 //cin >> password;
                 //cin.ignore();
+                time_start = clock();
                 password_to_vector(password, key);
                 message = fill_block(message);
                 number_of_blocks = message.size()/SIZE_BLOCK;
@@ -115,6 +116,10 @@ int main(int argc, char* argv[]) {
                     write_on_file(ENCRYPT_FILE, encrypted_message);
                     //encrypted_block.~Cypher(); //Destruir objeto
                 }
+                time_end = clock();
+                double total = (time_end - time_start) / (double)CLOCKS_PER_SEC * 1000;
+                cout << endl;
+	            printf("Tiempo en encriptar = %.6lf ms \n", total);
                 break;
             }
             case '2': {
@@ -129,6 +134,7 @@ int main(int argc, char* argv[]) {
                 password = "0123456789abcdef"; //borrar
                 //cin >> password;
                 //cin.ignore();
+                time_start = clock();
                 password_to_vector(password, key);
 
                 message = fill_block(message);
@@ -143,6 +149,10 @@ int main(int argc, char* argv[]) {
                     write_on_file(DECRYPT_FILE, decrypted_message);
                     //encrypted_block2.~Cypher(); //Destruir objeto
                 }
+                time_end = clock();
+                double total = (time_end - time_start) / (double)CLOCKS_PER_SEC * 1000;
+                cout << endl;
+	            printf("Tiempo en desencriptar = %.6lf ms \n", total);
                 
                 break;
             }

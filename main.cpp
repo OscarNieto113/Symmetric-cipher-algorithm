@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
 
                 message = get_message_from_file(INPUT_FILE);
                 cout << "Escribe una contraseña alfanumerica de tamanio de 16 caracteres: " << endl;
-                password = "0123456789abcdef";
+                password = "0123456789abcdef"; //borrar
                 //cin >> password;
                 //cin.ignore();
                 password_to_vector(password, key);
@@ -114,13 +114,12 @@ int main(int argc, char* argv[]) {
                     Cypher encrypted_block(&block, &key);
                     encrypted_message = encrypted_block.encrypt();
                     write_on_file(ENCRYPT_FILE, encrypted_message);
+                    encrypted_block.~Cypher(); //Destruir objeto
                 }
-
-                //Realizar implementacion del encriptado con las variables message y password
                 break;
             }
             case '2': {
-                string password, message;
+                string password, message, decrypted_message;
                 int number_of_blocks;
                 vector <unsigned char> block(SIZE_BLOCK, ADD_CHARACTER);
                 vector <unsigned char> key(SIZE_BLOCK, ADD_CHARACTER);
@@ -128,13 +127,22 @@ int main(int argc, char* argv[]) {
 
                 message = get_message_from_file(filename);
                 cout << "Escribe la contraseña para descifrar el mensaje: " ;
-                cin >> password;
-                cin.ignore();
+                password = "0123456789abcdef"; //borrar
+                //cin >> password;
+                //cin.ignore();
                 password_to_vector(password, key);
+
+                message = fill_block(message);
+                number_of_blocks = message.size()/SIZE_BLOCK;
+
+                clear_file(DECRYPT_FILE);
 
                 for (int i = 0; i < number_of_blocks; i++){
                     get_blocks(message, i*SIZE_BLOCK, i*SIZE_BLOCK + SIZE_BLOCK, block);
-                    
+                    Cypher encrypted_block(&block, &key);
+                    decrypted_message = encrypted_block.decrypt();
+                    write_on_file(ENCRYPT_FILE, decrypted_message);
+                    encrypted_block.~Cypher(); //Destruir objeto
                 }
                 
                 break;

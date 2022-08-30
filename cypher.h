@@ -41,8 +41,8 @@ void Cypher :: encrypt(){
     to_string();
     polyalphabetic_shift();
     to_string();
-    //xor_tecnique();
-    //to_string();
+    xor_tecnique();
+    to_string();
 }
 
 void Cypher :: diffusion_technique (){
@@ -104,6 +104,17 @@ void Cypher :: polyalphabetic_shift(){
     unsigned char aux;
     for (int i = 0; i < SIZE_BLOCK; i++){
         aux = block->at(i) + key->at(i);
+        if (aux > 127){
+            aux -= 127;
+        }
+        block->at(i) = aux;
+    }
+}
+
+void Cypher :: xor_tecnique(){
+    unsigned char aux;
+    for (int i = 0; i < SIZE_BLOCK; i++){
+        aux = block->at(i) ^ key->at(i);
         if (aux > 127){
             aux -= 127;
         }

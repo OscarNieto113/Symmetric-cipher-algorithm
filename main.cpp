@@ -10,6 +10,9 @@
 const int SIZE_BLOCK = 16; //16 caracteres = 128 bits
 const char ADD_CHARACTER = 'x'; //Caracter con el que se va a rellenar si el bloque no esta completo
 const int MATRIX_SIZE = SIZE_BLOCK/4;
+const string INPUT_FILE = "input.txt";
+const string ENCRYPT_FILE = "encrypt.txt";
+const string DECRYPT_FILE = "decrypt.txt";
 
 #include "cypher.h"
 
@@ -37,6 +40,19 @@ string get_message_from_file(string file1){
         cout << "No se pudo abrir el archivo" << endl;
     }
     return message;
+}
+
+void clear_file(string filename){
+    std::ofstream ofs;
+    ofs.open(filename, std::ofstream::out | std::ofstream::trunc);
+    ofs.close();
+}
+
+void write_on_file(string filename, string message){
+    ofstream myfile;
+    myfile.open (filename);
+    myfile << message;
+    myfile.close();
 }
 
 string fill_block(string message){
@@ -71,19 +87,17 @@ int main(int argc, char* argv[]) {
     bool flag = true;
     int message_length;
     
-
     while (flag){
         option = menu();
 
         switch (option){
             case '1': {
-                string password, message;
+                string password, message, encrypted_message;
                 int number_of_blocks;
                 vector <unsigned char> block(SIZE_BLOCK, ADD_CHARACTER);
                 vector <unsigned char> key(SIZE_BLOCK, ADD_CHARACTER);
-                string file = ("input.txt");
 
-                message = get_message_from_file(file);
+                message = get_message_from_file(INPUT_FILE);
                 cout << "Escribe una contraseña alfanumerica de tamanio de 16 caracteres: " << endl;
                 password = "0123456789abcdef";
                 //cin >> password;
@@ -93,10 +107,13 @@ int main(int argc, char* argv[]) {
                 message = fill_block(message);
                 number_of_blocks = message.size()/SIZE_BLOCK;
 
+                clear_file(ENCRYPT_FILE);
+
                 for (int i = 0; i < number_of_blocks; i++){
                     get_blocks(message, i*SIZE_BLOCK, i*SIZE_BLOCK + SIZE_BLOCK, block);
                     Cypher encrypted_block(&block, &key);
-                    encrypted_block.encrypt();
+                    encrypted_message = encrypted_block.encrypt();
+                    write_on_file(ENCRYPT_FILE, encrypted_message);
                 }
 
                 //Realizar implementacion del encriptado con las variables message y password
@@ -107,9 +124,9 @@ int main(int argc, char* argv[]) {
                 int number_of_blocks;
                 vector <unsigned char> block(SIZE_BLOCK, ADD_CHARACTER);
                 vector <unsigned char> key(SIZE_BLOCK, ADD_CHARACTER);
-                string file = ("encrypt.txt");
+                string filename = ("encrypt.txt");
 
-                message = get_message_from_file(file);
+                message = get_message_from_file(filename);
                 cout << "Escribe la contraseña para descifrar el mensaje: " ;
                 cin >> password;
                 cin.ignore();

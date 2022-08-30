@@ -16,8 +16,8 @@ class Cypher{
         Cypher();//Constructor por default / omision
         Cypher (vector<unsigned char> *b, vector<unsigned char> *k); // Constructor alterno
 
-        void encrypt ();
-        void decrypt();
+        string encrypt ();
+        string decrypt();
 
         void diffusion_technique  ();
         void polyalphabetic_shift ();
@@ -36,13 +36,20 @@ Cypher :: Cypher(vector <unsigned char> *b, vector <unsigned char> *k){
     key = k;
 }
 
-void Cypher :: encrypt(){
+string Cypher :: encrypt(){
+    string encrypted_message;
     diffusion_technique ();
     to_string();
     polyalphabetic_shift();
     to_string();
     xor_tecnique();
     to_string();
+
+    for (int i = 0; i < SIZE_BLOCK; i++){
+        encrypted_message += block->at(i);
+    }
+
+    return encrypted_message;
 }
 
 void Cypher :: diffusion_technique (){

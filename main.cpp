@@ -50,7 +50,7 @@ void clear_file(string filename){
 
 void write_on_file(string filename, string message){
     ofstream myfile;
-    myfile.open (filename);
+    myfile.open (filename, std::fstream::in | std::fstream::out | std::fstream::app);
     myfile << message;
     myfile.close();
 }
@@ -69,7 +69,7 @@ string fill_block(string message){
 void get_blocks(string message, int start, int end, vector<unsigned char>& block){
     int aux = 0;
     for (int i = start; i < end; i++){
-        block[i] = message.at(i);
+        block[aux] = message.at(i);
         aux++;
     }
 }
@@ -103,12 +103,11 @@ int main(int argc, char* argv[]) {
                 //cin >> password;
                 //cin.ignore();
                 password_to_vector(password, key);
-                
                 message = fill_block(message);
                 number_of_blocks = message.size()/SIZE_BLOCK;
 
                 clear_file(ENCRYPT_FILE);
-
+                
                 for (int i = 0; i < number_of_blocks; i++){
                     get_blocks(message, i*SIZE_BLOCK, i*SIZE_BLOCK + SIZE_BLOCK, block);
                     Cypher encrypted_block(&block, &key);
@@ -142,7 +141,7 @@ int main(int argc, char* argv[]) {
                     Cypher encrypted_block2(&block, &key);
                     decrypted_message = encrypted_block2.decrypt();
                     write_on_file(DECRYPT_FILE, decrypted_message);
-                    //encrypted_block.~Cypher(); //Destruir objeto
+                    //encrypted_block2.~Cypher(); //Destruir objeto
                 }
                 
                 break;

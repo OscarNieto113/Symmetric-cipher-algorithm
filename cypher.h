@@ -39,20 +39,19 @@ Cypher :: Cypher(vector <unsigned char> *b, vector <unsigned char> *k){
     key = k;
 }
 
-
 //Cypher:: ~Cypher() {
-//   delete[] block;
+//    delete[] block;
 //    delete[] key;
 //}
 
 string Cypher :: encrypt(){
     string encrypted_message;
     diffusion_technique_enc ();
-    to_string("Column and row transposition");
+    //to_string("Column and row transposition");
     polyalphabetic_shift_enc();
-    to_string("Polyalphabetic shift");
+    //to_string("Polyalphabetic shift");
     xor_tecnique();
-    to_string("XOR");
+    //to_string("XOR");
 
     for (int i = 0; i < SIZE_BLOCK; i++){
         encrypted_message += block->at(i);
@@ -65,11 +64,11 @@ string Cypher :: encrypt(){
 string Cypher :: decrypt(){
     string encrypted_message;
     xor_tecnique();
-    to_string("XOR");
+    //to_string("XOR");
     polyalphabetic_shift_dec();
-    to_string("Polyalphabetic shift");
+    //to_string("Polyalphabetic shift");
     diffusion_technique_dec ();
-    to_string("Column and row transposition");
+    //to_string("Column and row transposition");
     
     for (int i = 0; i < SIZE_BLOCK; i++){
         encrypted_message += block->at(i);

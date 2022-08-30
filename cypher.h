@@ -15,7 +15,6 @@ class Cypher{
     public:
         Cypher();//Constructor por default / omision
         Cypher (vector<unsigned char> *b, vector<unsigned char> *k); // Constructor alterno
-        ~Cypher (); //Destructor
 
         string encrypt ();
         string decrypt();
@@ -37,20 +36,11 @@ Cypher :: Cypher(vector <unsigned char> *b, vector <unsigned char> *k){
     key = k;
 }
 
-Cypher:: ~Cypher() {
-   delete[] block;
-    delete[] key;
-}
-
 string Cypher :: encrypt(){
     string encrypted_message;
-
     diffusion_technique ();
-    //to_string(); //borrar
     polyalphabetic_shift();
-    //to_string(); // borrar
     xor_tecnique();
-    //to_string(); // borrar
 
     for (int i = 0; i < SIZE_BLOCK; i++){
         encrypted_message += block->at(i);
@@ -60,17 +50,17 @@ string Cypher :: encrypt(){
 }
 
 string Cypher :: decrypt(){
-    string decrypted_message;
+    string encrypted_message;
     xor_tecnique();
-    polyalphabetic_shift();
-    diffusion_technique ();
-    to_string(); //borrar
+    //diffusion_technique ();
+    //polyalphabetic_shift();
+    //xor_tecnique();
 
     for (int i = 0; i < SIZE_BLOCK; i++){
-        decrypted_message += block->at(i);
+        encrypted_message += block->at(i);
     }
 
-    return decrypted_message;
+    return encrypted_message;
 }
 
 void Cypher :: diffusion_technique (){
@@ -91,32 +81,12 @@ void Cypher :: diffusion_technique (){
         matrix_transposition[i][MATRIX_SIZE - 2] = aux;
     }
 
-    /*borrar
-    cout << endl << "Shifted matrix by column: " << endl;
-    for (int i = 0; i < MATRIX_SIZE; i++) {
-        for (int j = 0; j < MATRIX_SIZE; j++){
-            cout << matrix_transposition[i][j] << " ";
-        }
-        cout << endl;
-    }
-    borrar*/
-
     //Row transposition
     for (int j = 0; j < MATRIX_SIZE; j++){
         aux = matrix_transposition [0][j];
         matrix_transposition[0][j] = matrix_transposition[MATRIX_SIZE - 2][j];
         matrix_transposition[MATRIX_SIZE - 2][j] = aux;
     }
-
-    /*borrar
-    cout << endl << "Shifted matrix by row: " << endl;
-    for (int i = 0; i < MATRIX_SIZE; i++) {
-        for (int j = 0; j < MATRIX_SIZE; j++){
-            cout << matrix_transposition[i][j] << " ";
-        }
-        cout << endl;
-    }
-    borrar*/
 
     aux = 0;
     for (int j = 0; j < MATRIX_SIZE; j++){

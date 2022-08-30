@@ -140,8 +140,8 @@ int main(int argc, char* argv[]) {
                 for (int i = 0; i < number_of_blocks; i++){
                     get_blocks(message, i*SIZE_BLOCK, i*SIZE_BLOCK + SIZE_BLOCK, block);
                     Cypher encrypted_block2(&block, &key);
-                    decrypted_message = encrypted_block2.decrypt();
-                    write_on_file(ENCRYPT_FILE, decrypted_message);
+                    //decrypted_message = encrypted_block2.decrypt();
+                    //write_on_file(ENCRYPT_FILE, decrypted_message);
                     //encrypted_block.~Cypher(); //Destruir objeto
                 }
                 

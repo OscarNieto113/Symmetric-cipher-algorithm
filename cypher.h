@@ -112,13 +112,14 @@ void Cypher :: diffusion_technique_enc (){
     }
 
     //Row transposition
-    cout << endl << endl << "Matrix Columnar transposition" << endl;
+    
     for (int j = 0; j < MATRIX_SIZE; j++){
         aux = matrix_transposition [0][j];
         matrix_transposition[0][j] = matrix_transposition[MATRIX_SIZE - 2][j];
         matrix_transposition[MATRIX_SIZE - 2][j] = aux;
     }
 
+    cout << endl << endl << "Matrix Columnar transposition" << endl;
     for (int i = 0; i < MATRIX_SIZE; i++){
         for (int j = 0; j < MATRIX_SIZE; j++){
             cout << matrix_transposition[i][j]<< ", ";
@@ -147,6 +148,14 @@ void Cypher :: diffusion_technique_dec (){
         }
     }
 
+    cout << endl << endl << "Normal Matrix" << endl;
+    for (int i = 0; i < MATRIX_SIZE; i++){
+        for (int j = 0; j < MATRIX_SIZE; j++){
+            cout << matrix_transposition[i][j]<< ", ";
+        }
+        cout << endl;
+    }
+
     //Row transposition
     for (int j = 0; j < MATRIX_SIZE; j++){
         aux = matrix_transposition [0][j];
@@ -154,13 +163,27 @@ void Cypher :: diffusion_technique_dec (){
         matrix_transposition[MATRIX_SIZE - 2][j] = aux;
     }
 
-    
+    cout << endl << endl << "Matrix Columnar transposition" << endl;
+    for (int i = 0; i < MATRIX_SIZE; i++){
+        for (int j = 0; j < MATRIX_SIZE; j++){
+            cout << matrix_transposition[i][j]<< ", ";
+        }
+        cout << endl;
+    }
 
     //Columnar transposition
     for (int i = 0; i < MATRIX_SIZE; i++){
         aux = matrix_transposition [i][0];
         matrix_transposition[i][0] = matrix_transposition[i][MATRIX_SIZE - 2];
         matrix_transposition[i][MATRIX_SIZE - 2] = aux;
+    }
+
+    cout << endl << endl << "Matrix Columnar transposition" << endl;
+    for (int i = 0; i < MATRIX_SIZE; i++){
+        for (int j = 0; j < MATRIX_SIZE; j++){
+            cout << matrix_transposition[i][j]<< ", ";
+        }
+        cout << endl;
     }
 
     aux = 0;

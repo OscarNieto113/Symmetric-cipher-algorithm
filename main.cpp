@@ -112,11 +112,13 @@ int main(int argc, char* argv[]) {
                 clear_file(ENCRYPT_FILE);
                 
                 for (int i = 0; i < number_of_blocks; i++){
+                    cout << endl <<"-------BLOCK: " << i << " ----------" << endl;
                     get_blocks(message, i*SIZE_BLOCK, i*SIZE_BLOCK + SIZE_BLOCK, block);
                     Cypher encrypted_block(&block, &key);
                     encrypted_message = encrypted_block.encrypt();
                     write_on_file(ENCRYPT_FILE, encrypted_message);
                     //encrypted_block.~Cypher(); //Destruir objeto
+                    cout << endl <<"-------                   ----------" << endl;
                 }
                 time_end = clock();
                 double total = (time_end - time_start) / (double)CLOCKS_PER_SEC * 1000;
@@ -146,10 +148,12 @@ int main(int argc, char* argv[]) {
                 clear_file(DECRYPT_FILE);
 
                 for (int i = 0; i < number_of_blocks; i++){
+                    cout << endl <<"-------BLOCK: " << i << " ----------" << endl;
                     get_blocks(message, i*SIZE_BLOCK, i*SIZE_BLOCK + SIZE_BLOCK, block);
                     Cypher encrypted_block2(&block, &key);
                     decrypted_message = encrypted_block2.decrypt();
                     write_on_file(DECRYPT_FILE, decrypted_message);
+                    cout << endl <<"-------                   ----------" << endl;
                     //encrypted_block2.~Cypher(); //Destruir objeto
                 }
                 time_end = clock();

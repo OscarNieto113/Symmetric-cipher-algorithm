@@ -5,10 +5,10 @@
 #include <vector>
 #include <iostream> 
 
-    using namespace std;
+using namespace std;
 
 const int SIZE_BLOCK = 16; //16 caracteres = 128 bits
-const char ADD_CHARACTER = 'x'; //Caracter con el que se va a rellenar si el bloque no esta completo
+const char ADD_CHARACTER = ' '; //Caracter con el que se va a rellenar si el bloque no esta completo
 const int MATRIX_SIZE = SIZE_BLOCK/4;
 const string INPUT_FILE = "input.txt";
 const string ENCRYPT_FILE = "encrypt.txt";
@@ -27,19 +27,21 @@ char menu(){
     return option;
 }
 
-string get_message_from_file(string file1){
-    string message;
-    ifstream file(file1);
+string get_message_from_file(string file_name){
+    ifstream file(file_name);
+    string str;
+    string file_contents;
     if (file.is_open()){
-        while (getline(file, message)){
-                        
+        while (getline(file, str)){
+            file_contents += str;
+            file_contents.push_back('\n');
         }
         file.close();
     }
     else{
         cout << "No se pudo abrir el archivo" << endl;
     }
-    return message;
+    return file_contents;
 }
 
 void clear_file(string filename){
@@ -122,6 +124,7 @@ int main(int argc, char* argv[]) {
 	            printf("Tiempo en encriptar = %.6lf ms \n", total);
                 break;
             }
+            
             case '2': {
                 string password, message, decrypted_message;
                 int number_of_blocks;
